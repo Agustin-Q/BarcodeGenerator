@@ -55,27 +55,36 @@ class barcode{
             pos = this.glyphs[i].show(pos, y, w, h)
         }
     }
+
+    showTotalWidth(x,y,totWidth,h){
+        let len = this.chars.length * 11 + 11*3+2;
+        this.show(x,y,totWidth/len,h);
+    }
 }
 
 //--------------------------------------
 let barc = new barcode("HOLA PIPI");
-let input;
+//let input;
 
-function onInput(){
-    barc = new barcode(input.value());
+function onInput(e){
+    //const input = document.getElementById("code");
+    barc = new barcode(e.target.value);
 }
 
 function setup() {
     let cnv = createCanvas(1000, 500);
     cnv.parent("container");
-    input = select("#code");
-    input.changed(onInput);
+    //input = select("#code");
+    //input.changed(onInput);
+    const input = document.getElementById("code");
+    input.addEventListener("input", onInput);
 
 }
 
 function draw() {
     background(255);
-    barc.show(50,50,4,350);
+    rect(50,40,50,5);
+    barc.showTotalWidth(width*0.05,50,width - 2*width*0.05,350);
 }
 
 function windowResized() {
