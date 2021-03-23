@@ -1,22 +1,25 @@
 class glyph{
     constructor(code){
         this.pattern = Array.from(code128Pattern[code]);
-        this.foregroundColor = 0;
-        this.backgroundColor = 255;
+        this.foregroundColor = "#000000";
+        this.backgroundColor = "#ffffff";
     }
 
     show(x,y,w,h){
-        noStroke();
         let endPos = 0;
+        let sum = 0;
+        let currBar =1;
         for(let i = 0; i<this.pattern.length;i++){
-            this.pattern[i] == 0 ? fill(this.backgroundColor) : fill(this.foregroundColor);
-            rect(x+w*i,y,w,h);
-            endPos = x+w*(i+1);
+            this.pattern[i] == 0 ? ctx.fillStyle = this.backgroundColor : ctx.fillStyle = this.foregroundColor;
+            if (i == this.pattern.length -1||this.pattern[i+1]!= currBar){
+                ctx.fillRect(x+w*i-sum*w,y,w*(sum+1),h);
+                endPos = x+w*(i+1);
+                sum =0;
+                currBar = this.pattern[i+1];
+            } else{
+                sum++;
+            }            
         }
-        //noFill();
-        //stroke(255,0,0);
-        //strokeWeight(w/2);
-        //rect(x,y,w*this.pattern.length,h);
         return endPos;
     }
 }
@@ -64,30 +67,31 @@ class barcode{
 
 //--------------------------------------
 let barc = new barcode("HOLA PIPI");
-//let input;
+let ctx;
 
 function onInput(e){
-    //const input = document.getElementById("code");
+    background("#ffffff");
     barc = new barcode(e.target.value);
+    barc.showTotalWidth(40,20,520,260);
 }
 
-function setup() {
-    let cnv = createCanvas(1000, 500);
-    cnv.parent("container");
-    //input = select("#code");
-    //input.changed(onInput);
+
+function init(){
+    let canvas = document.getElementById("canvas2");
+    ctx = canvas.getContext("2d");
+    background("#ffffff");
     const input = document.getElementById("code");
     input.addEventListener("input", onInput);
+    ctx.fillStyle = "black";
+    ctx.fillRect(100,100, 50, 50);
+    ctx.fillRect(150.1,100, 100, 50);
 
 }
 
-function draw() {
-    background(255);
-    rect(50,40,50,5);
-    barc.showTotalWidth(width*0.05,50,width - 2*width*0.05,350);
+function background(c){
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, ctx.canvas.clientWidth, ctx.canvas.clientHeight);
 }
 
-function windowResized() {
-    
-}
+document.addEventListener('DOMContentLoaded', init);
 
