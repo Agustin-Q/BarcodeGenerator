@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title>your boilerplate project</title>
+        <title>Barcode Generator</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#212121" />
@@ -13,12 +13,21 @@
 
     </head>
     <body>
-        <div id="container">
-        <label for="fname">Code:</label>
-        <input type="text" id="code" name="fname">
+        <div class="container">
+            <div class="inputFields">
+                <label for="code">Code:</label>
+                <input type="text" id="code" name="code">
+                <br>
+                <label for="width">Width:</label>
+                <input type="text" id="width" name="width" size="5">
+                <label for="height">Height:</label>
+                <input type="text" id="height" name="height" size="5">
+            </div>
+            
+            <div id="SVGContainer"></div>
         </div>
-        <canvas id="canvas2" width="600" height="300"></canvas>
-
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+        <script src="js/vendor/canvas2svg.js"></script>
         <script src="js/lookupTables.js"></script>
         <script src="js/main.js"></script>
     </body>

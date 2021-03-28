@@ -66,31 +66,56 @@ class barcode{
 }
 
 //--------------------------------------
-let barc = new barcode("HOLA PIPI");
+let barc = new barcode("Hello World");
 let ctx;
 
-function onInput(e){
-    background("#ffffff");
+function onInput(e){    
     barc = new barcode(e.target.value);
-    barc.showTotalWidth(40,20,520,260);
+    drawBarcode();   
+}
+
+function drawBarcode(){
+    background("#ffffff");
+    let w = ctx.canvas.width;
+    let h = ctx.canvas.height;
+    let margins = 0.05;
+    barc.showTotalWidth(w*margins,w*margins,w-2*w*margins,h-2*w*margins);
+    showSVG("SVGContainer");
 }
 
 
 function init(){
-    let canvas = document.getElementById("canvas2");
-    ctx = canvas.getContext("2d");
-    background("#ffffff");
+    ctx = new C2S(600,150);
     const input = document.getElementById("code");
     input.addEventListener("input", onInput);
-    ctx.fillStyle = "black";
-    ctx.fillRect(100,100, 50, 50);
-    ctx.fillRect(150.1,100, 100, 50);
+    const inputWidth = document.getElementById("width");
+    const inputHeight = document.getElementById("height");
+    inputWidth.value = ctx.canvas.width;
+    inputHeight.value = ctx.canvas.height;
+    inputWidth.addEventListener("input", resize);
+    inputHeight.addEventListener("input", resize);
+    drawBarcode();
+    
+}
 
+function resize(e){
+    console.log("Resize!");
+    console.log(e);
+    ctx.canvas.width = document.getElementById("width").value;
+    ctx.canvas.height = document.getElementById("height").value;
+    drawBarcode();
 }
 
 function background(c){
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     ctx.fillStyle = "#ffffff";
-    ctx.fillRect(0, 0, ctx.canvas.clientWidth, ctx.canvas.clientHeight);
+    ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+}
+
+function showSVG(id){
+    let cont = document.getElementById(id);
+    cont.innerHTML = "";
+    cont.innerHTML = ctx.getSerializedSvg(true);
 }
 
 document.addEventListener('DOMContentLoaded', init);
