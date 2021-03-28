@@ -22,6 +22,7 @@ html {
 .container{
   margin: auto;
   width: fit-content;
+  text-align: center;
 }
 
 .inputFields{
@@ -29,6 +30,8 @@ html {
   text-align: center;
   font-size: 2rem;
 }
+
+
 /*
  * Remove text-shadow in selection highlight:
  * https://twitter.com/miketaylr/status/12228805301
