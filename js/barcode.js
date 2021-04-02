@@ -31,17 +31,17 @@ class glyph{
 
 class barcode{
   constructor(str){
-      this.str = str;
+      this.str = this.cleanString(str);
       this.glyphs = [];
-      this.chars = Array.from(str);
-      this.glyphs.push(new glyph(104));
+      this.chars = Array.from(this.str);
+      this.glyphs.push(new glyph(104)); //start code
       for(let i =0 ; i < this.chars.length; i++){
-          let g = new glyph(this.code128BValue(this.chars[i]));
-          this.glyphs.push(g);
+        let g = new glyph(this.code128BValue(this.chars[i]));
+        this.glyphs.push(g);
       }
-      let check = this.calculateCheckDigit(str);
-      this.glyphs.push(new glyph(check));
-      this.glyphs.push(new glyph(108));
+      let check = this.calculateCheckDigit(this.str);
+      this.glyphs.push(new glyph(check)); // check digit
+      this.glyphs.push(new glyph(108)); //end code
   }
 
   calculateCheckDigit(str){
@@ -67,5 +67,17 @@ class barcode{
   showTotalWidth(x,y,totWidth,h,showCtx){
       let len = this.chars.length * 11 + 11*3+2;
       this.show(x,y,totWidth/len,h,showCtx);
+  }
+
+//removes non valid code128B characters and returns the string
+  cleanString(str) {
+    let charArray = Array.from(str);
+    let cleanCharArray = [];
+    for(let i =0; i < charArray.length; i++){
+        if(this.code128BValue(charArray[i])){ // if the return value is valid add to the cleaned array
+            cleanCharArray.push(charArray[i]);
+        }
+    }
+    return cleanCharArray.join("");
   }
 }
