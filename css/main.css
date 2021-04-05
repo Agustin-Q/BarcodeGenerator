@@ -31,7 +31,12 @@ html {
   font-size: 2rem;
 }
 
-
+.legal{
+  font-size: 0.75rem;
+  width: 50%; 
+  margin: auto;
+  text-align: justify;
+}
 /*
  * Remove text-shadow in selection highlight:
  * https://twitter.com/miketaylr/status/12228805301
